@@ -16,6 +16,7 @@
 		5AEF5CF61C99A50100B00123 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AEF5CF41C99A50100B00123 /* LaunchScreen.storyboard */; };
 		5AEF5D011C99A50200B00123 /* myApp2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEF5D001C99A50200B00123 /* myApp2Tests.swift */; };
 		5AEF5D0C1C99A50200B00123 /* myApp2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEF5D0B1C99A50200B00123 /* myApp2UITests.swift */; };
+		5AEF5D1A1C99ADC700B00123 /* maru.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AEF5D191C99ADC700B00123 /* maru.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		5AEF5D071C99A50200B00123 /* myApp2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = myApp2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AEF5D0B1C99A50200B00123 /* myApp2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myApp2UITests.swift; sourceTree = "<group>"; };
 		5AEF5D0D1C99A50200B00123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AEF5D191C99ADC700B00123 /* maru.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maru.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				5AEF5CE71C99A50100B00123 /* AppDelegate.swift */,
 				5AEF5CE91C99A50100B00123 /* GameScene.sks */,
 				5AEF5CEB1C99A50100B00123 /* GameScene.swift */,
+				5AEF5D191C99ADC700B00123 /* maru.png */,
 				5AEF5CED1C99A50100B00123 /* GameViewController.swift */,
 				5AEF5CEF1C99A50100B00123 /* Main.storyboard */,
 				5AEF5CF21C99A50100B00123 /* Assets.xcassets */,
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AEF5CEA1C99A50100B00123 /* GameScene.sks in Resources */,
+				5AEF5D1A1C99ADC700B00123 /* maru.png in Resources */,
 				5AEF5CF61C99A50100B00123 /* LaunchScreen.storyboard in Resources */,
 				5AEF5CF31C99A50100B00123 /* Assets.xcassets in Resources */,
 				5AEF5CF11C99A50100B00123 /* Main.storyboard in Resources */,
