@@ -20,22 +20,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var contactCountLabel: SKLabelNode?
     
     override func didMoveToView(view: SKView) {
-        
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: -1.8)
+//        重力の指定
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: -1.2)
         self.physicsWorld.contactDelegate = self
-        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        
-        user.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(50, 50))
+//        適応範囲の指定
+        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: -800, width: size.width, height: size.height * 2))
+//        物体シミュレーションに適応する大きさの指定
+        user.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(125, 125))
+//        重力を適応させない
         user.physicsBody!.affectedByGravity = false
+//        動く物体かどうか。 false = 動かない
         user.physicsBody!.dynamic = false
+//        カテゴリの設定
         user.physicsBody!.categoryBitMask = redCategory
         user.physicsBody!.contactTestBitMask = greenCategory
+//        constraints(制約)適応範囲の指定
+        let ConstraintYRange = SKRange(lowerLimit: self.frame.minY, upperLimit: self.frame.maxY / 3 - 50)
+        let yconst = SKConstraint.positionY(ConstraintYRange)
+        user.constraints = [yconst]
         
         startBtn.size = CGSizeMake(100, 100)
         startBtn.position = CGPoint(x: self.frame.width / 2, y: 1200)
         
         user.size = CGSizeMake(120, 120)
         user.position = CGPoint(x: self.frame.width / 2, y: 100)
+        
         self.addChild(user)
         self.addChild(startBtn)
         
@@ -47,14 +56,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         contactCountLabel.text = "\(contactCount) / 1000"
         addChild(contactCountLabel)
         self.contactCountLabel = contactCountLabel
-
-        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             
             let location = touch.locationInNode(self)
+//            タッチされた場にあるNodeの検知
             let toucheNode = self.nodeAtPoint(location)
             
             if toucheNode == startBtn {
@@ -62,10 +70,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     var sprite = SKSpriteNode(texture: myTexture)
                     sprite.position = startBtn.position
                     sprite.size = CGSizeMake(20, 20)
+//                    sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 21, height: 21))
                     sprite.physicsBody = SKPhysicsBody(circleOfRadius: 10)
+//                    sprite.physicsBody = SKPhysicsBody(circleOfRadius: 10, center: location)
+//                    摩擦力の指定
                     sprite.physicsBody?.friction = 0.0
+//                    反発力の指定
                     sprite.physicsBody!.restitution = 0.2
-                    sprite.physicsBody!.velocity = CGVectorMake(100, 400)
+//                    押し出す力の方向を指定
+                    sprite.physicsBody!.velocity = CGVector(dx: 0, dy: 400)
                     self.addChild(sprite)
                 }
             }
@@ -86,19 +99,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if firstBody.categoryBitMask & redCategory != 0 && secondBody.categoryBitMask & greenCategory != 0 {
+            var particle = NSKeyedUnarchiver.unarchiveObjectWithFile(path!) as! SKEmitterNode
+            particle.position = contact.contactPoint
+            particle.numParticlesToEmit = 100 // 何個、粒を出すか。
+            particle.particleBirthRate = 200 // 一秒間に何個、粒を出すか。
+            particle.particleSpeed = 80 // 粒の速度
+            particle.xAcceleration = 0
+            particle.yAcceleration = 0 // 加速度
+            self.addChild(particle)
             secondBody.node!.removeFromParent()
             contactCount++
         }
-        
-        var particle = NSKeyedUnarchiver.unarchiveObjectWithFile(path!) as! SKEmitterNode
-        particle.position = contact.contactPoint
-        particle.numParticlesToEmit = 100 // 何個、粒を出すか。
-        particle.particleBirthRate = 200 // 一秒間に何個、粒を出すか。
-        particle.particleSpeed = 80 // 粒の速度
-        particle.xAcceleration = 0
-        particle.yAcceleration = 0 // 加速度
-        self.addChild(particle)
-        
         contactCountLabel?.text = "\(contactCount) / 1000"
     }
     
@@ -106,8 +117,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch: AnyObject in touches {
             
             let location = touch.locationInNode(self)
-            user.position = location
-            
+            let t = CGPoint(x: self.frame.minY, y: self.frame.maxY / 3 - 50)
+//            タップされた場が指定範囲内だった場合
+            if t {
+                print("tap")
+                user.position = location
+            }
         }
     }
    
